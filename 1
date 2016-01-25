@@ -1,0 +1,93 @@
+package shaffer.j;
+
+import java.util.Scanner;
+import java.util.InputMismatchException;
+
+public class Ch11Homework {
+	
+	public static double divide(double numerator, double denominator)
+	{
+		return numerator / denominator;
+	}
+	
+	public static void askValue(String nomDenom)
+	{
+		String value = "";
+		Scanner input = new Scanner(System.in);
+		
+		System.out.print("4Enter a " + nomDenom + ":");
+		value = input.nextLine();
+		errorCheck(value, nomDenom); //problem here. not passing new value from this method. still keeps value from main
+	}
+	
+	public static Double errorCheck(String input, String nomDenom)
+	{
+		Double value = 0.0;
+		String passingValue;
+		boolean loop = true;
+		do
+		{
+			try
+			{
+				if (input.trim() == null || input.trim().equals(""))
+				{
+					System.out.println("1The value for " + nomDenom + ":" + "\"" + input + "\"" + " is not numeric. Try again.");
+					askValue(nomDenom);
+				}
+				else
+				{
+					try
+					{
+						value = Double.parseDouble(input);
+						if (value <= 0.0)
+						{
+							System.out.println(nomDenom + " cannot be 0. Try again.");
+						}
+						else
+						{
+							passingValue = Double.toString(value);
+							return value;
+						}
+					}
+					catch (NumberFormatException e)
+					{
+						System.out.println("2The value for " + nomDenom + ":" + "\"" + input + "\"" + " is not numeric. Try again.");
+						askValue(nomDenom);
+					}
+				}
+			}
+			catch (InputMismatchException inputMisExcep)
+			{
+				System.out.println("3The value for " + nomDenom + ":" + "\"" + input + "\"" + " is not numeric. Try again.");
+				askValue(nomDenom);
+			}
+		} while (loop);
+		return value;
+	}
+
+	public static void main(String[] args) 
+	{
+		String wordToPass1 = "Numerator";
+		String wordToPass2 = "Denominator";
+		String numer = "";
+		String denom = "";
+		double numerator = 0;
+		double denominator = 0;
+		//boolean looping = true;
+		double result = 0;
+		Scanner input = new Scanner(System.in);
+				
+		System.out.println("Welcome to division!\n");
+		
+		System.out.print("Enter a numerator: ");
+		numer = input.nextLine();
+		numerator = errorCheck(numer, wordToPass1);
+		
+		System.out.print("Enter a denominator: ");
+		denom = input.nextLine();
+		denominator = errorCheck(denom, wordToPass2);
+		
+		result = divide(numerator, denominator);
+		
+		System.out.println(result);
+	    System.out.println("Good Bye");
